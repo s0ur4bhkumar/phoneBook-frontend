@@ -5,7 +5,7 @@ type AddPersonProps = {
   onChangeName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeNumber: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Name: string;
-  Number: number | undefined;
+  Number: number | undefined | string;
 };
 
 export function AddPerson({

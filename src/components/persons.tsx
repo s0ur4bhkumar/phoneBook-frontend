@@ -1,7 +1,7 @@
 export type person = {
-  id: string;
+  id: string | number;
   Name: string;
-  Number: number;
+  Number: number | undefined | string;
 };
 
 type personListPropType = {

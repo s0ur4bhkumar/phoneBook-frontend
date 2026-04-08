@@ -4,9 +4,40 @@ import { AddPerson } from "./components/addPerson";
 import { PersonList, type person } from "./components/persons";
 
 function App() {
-  const [persons, setPersons] = useState<person[]>([]);
+  const [persons, setPersons] = useState<person[]>([
+    {
+      id: 1,
+      Name: "Arjun Mehta",
+      Number: "98765-43210",
+    },
+    {
+      id: 2,
+      Name: "Sara Chen",
+      Number: "555-012-3456",
+    },
+    {
+      id: 3,
+      Name: "Marcus Holloway",
+      Number: "415-555-2671",
+    },
+    {
+      id: 4,
+      Name: "Elena Rodriguez",
+      Number: "040-1234-5678",
+    },
+    {
+      id: 5,
+      Name: "Kenji Sato",
+      Number: "+81-90-1234-5678",
+    },
+    {
+      id: 6,
+      Name: "Priya Sharma",
+      Number: "99887-76655",
+    },
+  ]);
   const [person, setPerson] = useState<string>("");
-  const [number, setNumber] = useState<number | undefined>();
+  const [Number, setNumber] = useState<Number | undefined | string>();
   const [searchQuerry, setSearchQuerry] = useState("");
   function handlePerson(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
@@ -15,7 +46,7 @@ function App() {
 
   function handleNumber(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
-    setNumber(Number(val));
+    setNumber(val);
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -28,7 +59,7 @@ function App() {
     const addPerson: person = {
       id: crypto.randomUUID(),
       Name: person,
-      Number: number,
+      Number: Number,
     };
     const alreadyExist = persons.find(
       (person) => person.Name === addPerson.Name,
@@ -43,17 +74,21 @@ function App() {
     setNumber(undefined);
   }
 
+  const renderLst = persons.filter((person) =>
+    person.Name.toLocaleLowerCase().includes(searchQuerry.toLocaleLowerCase()),
+  );
+
   return (
     <>
       <Search value={searchQuerry} onchange={handleSearch} />
       <AddPerson
         onSubmit={onSubmit}
         Name={person}
-        Number={number}
+        Number={Number}
         onChangeNumber={handleNumber}
         onChangeName={handlePerson}
       />
-      <PersonList personList={persons} />
+      <PersonList personList={renderLst} />
     </>
   );
 }
