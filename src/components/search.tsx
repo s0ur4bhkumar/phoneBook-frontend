@@ -2,7 +2,7 @@ import type React from "react";
 
 type SearchProps = {
   value: string;
-  onchange: React.ChangeEventHandler<HTMLInputElement>;
+  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function Search({ value, onchange }: SearchProps) {
@@ -14,7 +14,7 @@ export function Search({ value, onchange }: SearchProps) {
         name="search"
         id="Search"
         value={value}
-        onChange={onchange}
+        onChange={(e) => onchange(e)}
       />
     </>
   );

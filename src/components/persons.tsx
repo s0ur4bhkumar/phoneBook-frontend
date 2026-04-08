@@ -1,21 +1,21 @@
-type person = {
+export type person = {
   id: string;
-  name: string;
-  number: number;
+  Name: string;
+  Number: number;
 };
 
-type PersonsPropType = {
-  persons: person[];
+type personListPropType = {
+  personList: person[];
 };
 
-export function Persons({ persons }: PersonsPropType) {
+export function PersonList({ personList }: personListPropType) {
   return (
     <>
-      {persons.map((person) => {
+      {personList.map((person) => {
         return (
           <div key={person.id}>
-            <li>Name: {person.name}</li>
-            <li> Number: {person.number}</li>
+            <li>Name: {person.Name}</li>
+            <li> Number: {person.Number}</li>
           </div>
         );
       })}
