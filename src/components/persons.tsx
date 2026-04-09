@@ -6,9 +6,10 @@ export type person = {
 
 type personListPropType = {
   personList: person[];
+  removeFn: (id: string | number) => void;
 };
 
-export function PersonList({ personList }: personListPropType) {
+export function PersonList({ personList, removeFn }: personListPropType) {
   return (
     <>
       {personList.map((person) => {
@@ -16,6 +17,7 @@ export function PersonList({ personList }: personListPropType) {
           <div key={person.id}>
             <li>Name: {person.Name}</li>
             <li> Number: {person.Number}</li>
+            <button onClick={() => removeFn(person.id)}>Delete</button>
           </div>
         );
       })}

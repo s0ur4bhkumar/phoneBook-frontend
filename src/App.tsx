@@ -1,47 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search } from "./components/search";
 import { AddPerson } from "./components/addPerson";
 import { PersonList, type person } from "./components/persons";
+import phoneBookServices from "./phoneBookServices/phoneBookServices";
 
 function App() {
-  const [persons, setPersons] = useState<person[]>([
-    {
-      id: 1,
-      Name: "Arjun Mehta",
-      Number: "98765-43210",
-    },
-    {
-      id: 2,
-      Name: "Sara Chen",
-      Number: "555-012-3456",
-    },
-    {
-      id: 3,
-      Name: "Marcus Holloway",
-      Number: "415-555-2671",
-    },
-    {
-      id: 4,
-      Name: "Elena Rodriguez",
-      Number: "040-1234-5678",
-    },
-    {
-      id: 5,
-      Name: "Kenji Sato",
-      Number: "+81-90-1234-5678",
-    },
-    {
-      id: 6,
-      Name: "Priya Sharma",
-      Number: "99887-76655",
-    },
-  ]);
+  const [persons, setPersons] = useState<person[]>([]);
   const [person, setPerson] = useState<string>("");
-  const [Number, setNumber] = useState<Number | undefined | string>();
+  const [Number, setNumber] = useState<string | number | undefined>();
   const [searchQuerry, setSearchQuerry] = useState("");
+
+  useEffect(() => {
+    phoneBookServices
+      .getAll()
+      .then((Response) => {
+        setPersons([...Response.data]);
+        console.log(Response);
+        console.log("successfully fetched persons");
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   function handlePerson(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
     setPerson(val);
+  }
+
+  function handleDelete(id: number | string) {
+    phoneBookServices.remove(id).then(() => {
+      setPersons([...persons.filter((person) => person.id !== id)]);
+    });
   }
 
   function handleNumber(e: React.ChangeEvent<HTMLInputElement>) {
@@ -68,15 +56,20 @@ function App() {
       alert(`${addPerson.Name} already exist in the phonebook`);
       return;
     }
-    setPersons([...persons, addPerson]);
-    console.log(addPerson);
+    phoneBookServices.create(addPerson).then((Response) => {
+      setPersons([...Response.data]);
+    });
+    // console.log(addPerson);
     setPerson("");
     setNumber(undefined);
   }
 
-  const renderLst = persons.filter((person) =>
-    person.Name.toLocaleLowerCase().includes(searchQuerry.toLocaleLowerCase()),
-  );
+  const renderLst = persons.filter((person) => {
+    // console.log(person);
+    return person.Name.toLocaleLowerCase().includes(
+      searchQuerry.toLocaleLowerCase(),
+    );
+  });
 
   return (
     <>
@@ -88,7 +81,7 @@ function App() {
         onChangeNumber={handleNumber}
         onChangeName={handlePerson}
       />
-      <PersonList personList={renderLst} />
+      <PersonList personList={renderLst} removeFn={handleDelete} />
     </>
   );
 }
