@@ -1,7 +1,7 @@
 export type person = {
   id: string | number;
-  Name: string;
-  Number: number | undefined | string;
+  name: string;
+  contact: number | undefined | string;
 };
 
 type personListPropType = {
@@ -15,8 +15,8 @@ export function PersonList({ personList, removeFn }: personListPropType) {
       {personList.map((person) => {
         return (
           <div key={person.id}>
-            <li>Name: {person.Name}</li>
-            <li> Number: {person.Number}</li>
+            <li>Name: {person.name}</li>
+            <li> Number: {person.contact}</li>
             <button onClick={() => removeFn(person.id)}>Delete</button>
           </div>
         );

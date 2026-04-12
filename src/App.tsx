@@ -7,7 +7,7 @@ import phoneBookServices from "./phoneBookServices/phoneBookServices";
 function App() {
   const [persons, setPersons] = useState<person[]>([]);
   const [person, setPerson] = useState<string>("");
-  const [Number, setNumber] = useState<string | number | undefined>();
+  const [contact, setcontact] = useState<string | contact | undefined>();
   const [searchQuerry, setSearchQuerry] = useState("");
 
   useEffect(() => {
@@ -26,15 +26,15 @@ function App() {
     setPerson(val);
   }
 
-  function handleDelete(id: number | string) {
+  function handleDelete(id: contact | string) {
     phoneBookServices.remove(id).then(() => {
       setPersons([...persons.filter((person) => person.id !== id)]);
     });
   }
 
-  function handleNumber(e: React.ChangeEvent<HTMLInputElement>) {
+  function handlecontact(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
-    setNumber(val);
+    setcontact(val);
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -46,14 +46,14 @@ function App() {
     event.preventDefault();
     const addPerson: person = {
       id: crypto.randomUUID(),
-      Name: person,
-      Number: Number,
+      name: person,
+      contact: contact,
     };
     const alreadyExist = persons.find(
-      (person) => person.Name === addPerson.Name,
+      (person) => person.name === addPerson.name,
     );
     if (alreadyExist) {
-      alert(`${addPerson.Name} already exist in the phonebook`);
+      alert(`${addPerson.name} already exist in the phonebook`);
       return;
     }
     phoneBookServices.create(addPerson).then((Response) => {
@@ -61,14 +61,13 @@ function App() {
     });
     // console.log(addPerson);
     setPerson("");
-    setNumber(undefined);
+    setcontact(undefined);
   }
 
   const renderLst = persons.filter((person) => {
-    // console.log(person);
-    return person.Name.toLocaleLowerCase().includes(
-      searchQuerry.toLocaleLowerCase(),
-    );
+    return person.name
+      .toLocaleLowerCase()
+      .includes(searchQuerry.toLocaleLowerCase());
   });
 
   return (
@@ -76,10 +75,10 @@ function App() {
       <Search value={searchQuerry} onchange={handleSearch} />
       <AddPerson
         onSubmit={onSubmit}
-        Name={person}
-        Number={Number}
-        onChangeNumber={handleNumber}
-        onChangeName={handlePerson}
+        name={person}
+        contact={contact}
+        onChangecontact={handlecontact}
+        onChangename={handlePerson}
       />
       <PersonList personList={renderLst} removeFn={handleDelete} />
     </>

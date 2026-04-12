@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { person } from "../components/persons";
 
-const baseUrl = "/api/persons";
+const baseUrl = "/api/contacts";
 
 function getAll() {
   console.log("fetching persons");
