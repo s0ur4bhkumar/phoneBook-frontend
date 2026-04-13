@@ -4,17 +4,18 @@ type AddPersonProps = {
   onSubmit: React.SubmitEventHandler<HTMLFormElement>;
   onChangeName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeNumber: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  Name: string;
-  Number: number | string | undefined;
+  name: string;
+  contact: number | string | undefined;
 };
 
 export function AddPerson({
   onSubmit,
-  Name,
-  Number,
+  name,
+  contact,
   onChangeName,
   onChangeNumber,
 }: AddPersonProps) {
+  console.log("addperson", onChangeName);
   return (
     <>
       <form onSubmit={(e) => onSubmit(e)}>
@@ -23,7 +24,7 @@ export function AddPerson({
           <input
             type="text"
             id="Name"
-            value={Name}
+            value={name}
             onChange={(e) => onChangeName(e)}
           />
         </div>
@@ -32,7 +33,7 @@ export function AddPerson({
           <input
             type="number"
             id="Number"
-            value={Number || ""}
+            value={contact || ""}
             onChange={(e) => onChangeNumber(e)}
           />
         </div>

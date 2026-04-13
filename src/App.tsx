@@ -7,7 +7,7 @@ import phoneBookServices from "./phoneBookServices/phoneBookServices";
 function App() {
   const [persons, setPersons] = useState<person[]>([]);
   const [person, setPerson] = useState<string>("");
-  const [contact, setcontact] = useState<string | contact | undefined>();
+  const [contact, setcontact] = useState<string | number | undefined>();
   const [searchQuerry, setSearchQuerry] = useState("");
 
   useEffect(() => {
@@ -23,10 +23,11 @@ function App() {
 
   function handlePerson(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
+    console.log(val);
     setPerson(val);
   }
 
-  function handleDelete(id: contact | string) {
+  function handleDelete(id: number | string) {
     phoneBookServices.remove(id).then(() => {
       setPersons([...persons.filter((person) => person.id !== id)]);
     });
@@ -45,7 +46,6 @@ function App() {
   function onSubmit(event: React.SubmitEvent<HTMLFormElement>): void {
     event.preventDefault();
     const addPerson: person = {
-      id: crypto.randomUUID(),
       name: person,
       contact: contact,
     };
@@ -57,7 +57,8 @@ function App() {
       return;
     }
     phoneBookServices.create(addPerson).then((Response) => {
-      setPersons([...Response.data]);
+      console.log(Response.data);
+      setPersons([...persons, Response.data]);
     });
     // console.log(addPerson);
     setPerson("");
@@ -73,12 +74,13 @@ function App() {
   return (
     <>
       <Search value={searchQuerry} onchange={handleSearch} />
+      {console.log(handlePerson)}
       <AddPerson
         onSubmit={onSubmit}
         name={person}
         contact={contact}
-        onChangecontact={handlecontact}
-        onChangename={handlePerson}
+        onChangeNumber={handlecontact}
+        onChangeName={handlePerson}
       />
       <PersonList personList={renderLst} removeFn={handleDelete} />
     </>
