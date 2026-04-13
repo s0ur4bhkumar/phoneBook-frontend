@@ -17,7 +17,7 @@ export function PersonList({ personList, removeFn }: personListPropType) {
           <div key={person.id}>
             <li key={person.name + person.id}>Name: {person.name}</li>
             <li key={person.contact}> Number: {person.contact}</li>
-            <button onClick={() => removeFn(person.id)}>Delete</button>
+            <button onClick={() => removeFn(person.id!)}>Delete</button>
           </div>
         );
       })}

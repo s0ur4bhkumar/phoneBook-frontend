@@ -9,7 +9,7 @@ function App() {
   const [person, setPerson] = useState<string>("");
   const [contact, setcontact] = useState<string | number | undefined>();
   const [searchQuerry, setSearchQuerry] = useState("");
-
+  console.log("rendered");
   useEffect(() => {
     phoneBookServices
       .getAll()
