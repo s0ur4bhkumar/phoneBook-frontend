@@ -3,7 +3,7 @@ import { Search } from "./components/search";
 import { AddPerson } from "./components/addPerson";
 import { PersonList, type person } from "./components/persons";
 import phoneBookServices from "./phoneBookServices/phoneBookServices";
-
+console.log("re-rendered");
 function App() {
   const [persons, setPersons] = useState<person[]>([]);
   const [person, setPerson] = useState<string>("");
@@ -28,9 +28,12 @@ function App() {
   }
 
   function handleDelete(id: number | string) {
-    phoneBookServices.remove(id).then(() => {
-      setPersons([...persons.filter((person) => person.id !== id)]);
+    console.log("delete operation initiated");
+    phoneBookServices.remove(id).then((response) => {
+      console.log(response.data);
+      setPersons([...response.data]);
     });
+    return;
   }
 
   function handlecontact(e: React.ChangeEvent<HTMLInputElement>) {

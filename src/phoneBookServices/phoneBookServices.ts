@@ -13,7 +13,8 @@ function create(newPersonObject: person) {
 }
 
 function remove(id: number | string) {
-  return axios.delete(`${baseUrl}/${id}`);
+  axios.delete(`${baseUrl}/${id}`);
+  return axios.get(baseUrl)
 }
 
 function update(id: Pick<person, "id">, newPersonObject: person) {
