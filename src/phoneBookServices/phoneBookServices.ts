@@ -8,13 +8,14 @@ function getAll() {
   return axios.get(baseUrl);
 }
 
-function create(newPersonObject: person) {
-  return axios.post(baseUrl, newPersonObject);
+async function create(newPersonObject: person) {
+  await axios.post(baseUrl, newPersonObject);
+  return getAll();
 }
 
 function remove(id: number | string) {
   axios.delete(`${baseUrl}/${id}`);
-  return axios.get(baseUrl)
+  return axios.get(baseUrl);
 }
 
 function update(id: Pick<person, "id">, newPersonObject: person) {

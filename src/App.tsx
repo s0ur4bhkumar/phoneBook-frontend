@@ -3,34 +3,27 @@ import { Search } from "./components/search";
 import { AddPerson } from "./components/addPerson";
 import { PersonList, type person } from "./components/persons";
 import phoneBookServices from "./phoneBookServices/phoneBookServices";
-console.log("re-rendered");
 function App() {
   const [persons, setPersons] = useState<person[]>([]);
   const [person, setPerson] = useState<string>("");
   const [contact, setcontact] = useState<string | number | undefined>();
   const [searchQuerry, setSearchQuerry] = useState("");
-  console.log("rendered");
   useEffect(() => {
     phoneBookServices
       .getAll()
       .then((Response) => {
         setPersons([...Response.data]);
-        console.log(Response);
-        console.log("successfully fetched persons");
       })
       .catch((error) => console.log(error));
   }, []);
 
   function handlePerson(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
-    console.log(val);
     setPerson(val);
   }
 
   function handleDelete(id: number | string) {
-    console.log("delete operation initiated");
     phoneBookServices.remove(id).then((response) => {
-      console.log(response.data);
       setPersons([...response.data]);
     });
     return;
@@ -61,13 +54,12 @@ function App() {
     }
     phoneBookServices.create(addPerson).then((Response) => {
       console.log(Response.data);
-      setPersons([...persons, Response.data]);
+      setPersons([...Response.data]);
     });
     // console.log(addPerson);
     setPerson("");
     setcontact(undefined);
   }
-
   const renderLst = persons.filter((person) => {
     return person.name
       .toLocaleLowerCase()
@@ -77,7 +69,6 @@ function App() {
   return (
     <>
       <Search value={searchQuerry} onchange={handleSearch} />
-      {console.log(handlePerson)}
       <AddPerson
         onSubmit={onSubmit}
         name={person}
