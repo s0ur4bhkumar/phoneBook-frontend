@@ -3,6 +3,7 @@ import { Search } from "./components/search";
 import { AddPerson } from "./components/addPerson";
 import { PersonList, type person } from "./components/persons";
 import phoneBookServices from "./phoneBookServices/phoneBookServices";
+
 function App() {
   const [persons, setPersons] = useState<person[]>([]);
   const [person, setPerson] = useState<string>("");
@@ -49,7 +50,18 @@ function App() {
       (person) => person.name === addPerson.name,
     );
     if (alreadyExist) {
-      alert(`${addPerson.name} already exist in the phonebook`);
+      const id = persons.find((person) => person.name === addPerson.name)?.id;
+      const updateContact = confirm(
+        `${addPerson.name} already exist in the phonebook`,
+      );
+      if (updateContact) {
+        phoneBookServices
+          .update({ id: id, contact: addPerson.contact })
+          .then((Response) => {
+            console.log(Response);
+            setPersons([...Response.data]);
+          });
+      }
       return;
     }
     phoneBookServices.create(addPerson).then((Response) => {
@@ -60,6 +72,7 @@ function App() {
     setPerson("");
     setcontact(undefined);
   }
+  console.log("person list before renderlst: ", persons);
   const renderLst = persons.filter((person) => {
     return person.name
       .toLocaleLowerCase()

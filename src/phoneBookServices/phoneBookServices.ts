@@ -18,8 +18,8 @@ function remove(id: number | string) {
   return axios.get(baseUrl);
 }
 
-function update(id: Pick<person, "id">, newPersonObject: person) {
-  return axios.put(`${baseUrl}/${id}`, newPersonObject);
+function update(newPersonObject: Omit<person, "name">) {
+  return axios.put(`${baseUrl}`, newPersonObject);
 }
 
 export default {
